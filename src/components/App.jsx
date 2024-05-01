@@ -1,10 +1,10 @@
-import Rectangle from "./Rectangle";
+import GameManager from "./GameManager";
 
 function App() {
   return (
     <>
-      <h1>Hello</h1>
-      <Rectangle />
+      <h1>Classic Snake Game</h1>
+      <GameManager />
     </>
   );
 }

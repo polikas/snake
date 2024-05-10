@@ -1,9 +1,10 @@
 import GameManager from "./GameManager";
+import "../components/style/App.css";
 
 function App() {
   return (
     <>
-      <h1>Classic Snake Game</h1>
+      <h1 className="header">Classic Snake Game</h1>
       <GameManager />
     </>
   );

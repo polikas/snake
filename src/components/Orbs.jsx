@@ -8,8 +8,8 @@ const Orbs = ({ orbs, spawnOrbs }) => {
       g.clear();
       //orbs
       g.lineStyle(0);
-      g.beginFill(0x000000, 1);
-      g.drawCircle(orbs.x, orbs.y, 3);
+      g.beginFill(0xFFa500, 1);
+      g.drawCircle(orbs.x, orbs.y, 5);
       g.endFill();
     },
     [orbs]

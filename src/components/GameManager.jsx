@@ -18,12 +18,17 @@ const GameManager = () => {
   const [snake, setSnake] = useState(initialSnake);
   const [direction, setDirection] = useState({ x: 0, y: 0 });
   const [orbs, setOrbs] = useState({ x: 550, y: 250 });
+  const [score, setScore] = useState(0);
+  const [enableCollisions, setCollisions] = useState(false);
+  const [counter, setCounter] = useState(0);
+  const [snakeSpeed, setSnakeSpeed] = useState(100);
+  const [lastScoreUpdated, setLastScoreUpdated] = useState(0);
 
   const drawSnake = useCallback(
     (g) => {
       g.clear();
       //canvas border
-      g.lineStyle(2, 0x000000, 1);
+      g.lineStyle(10, 0x000000);
       g.drawRect(0, 0, width, height);
       g.endFill();
 
@@ -81,6 +86,29 @@ const GameManager = () => {
     return distance <= snakeRadius + orbRadius;
   };
 
+  const collisionDetectionEdges = (snake) => {
+    const head = snake[0];
+    if (
+      head.x > width - 15 ||
+      head.y > height - 15 ||
+      head.x < 0 ||
+      head.y < 0
+    ) {
+      return true;
+    }
+    return false;
+  };
+
+  const collisionDetectionSnake = (snake) => {
+    const head = snake[0];
+    for (let i = 1; i < snake.length; i++) {
+      if (head.x === snake[i].x && head.y === snake[i].y && enableCollisions) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   const spawnOrbs = () => {
     setOrbs((prevOrb) => {
       const minX = 5;
@@ -99,12 +127,33 @@ const GameManager = () => {
       const newHead = { x: head.x + direction.x, y: head.y + direction.y };
       //check for collision
       if (collisionDetection([newHead], orbs)) {
-        console.log("collision detected");
+        increaseScore(score);
         growSnake();
         spawnOrbs();
       }
       return [newHead, ...prevSnake.slice(0, prevSnake.length - 1)];
     });
+  };
+
+  const gameOver = () => {
+    if (collisionDetectionEdges(snake) || collisionDetectionSnake(snake)) {
+      setSnake(initialSnake);
+      setDirection({ x: 0, y: 0 });
+      setScore(0);
+      setCollisions(false);
+      setSnakeSpeed(100);
+    }
+  };
+
+  const increaseScore = (currentScore) => {
+    setScore(++currentScore);
+  };
+
+  const checkCounter = () => {
+    setCounter((counter) => counter + 1);
+    if (counter > 3) {
+      setCollisions(true);
+    }
   };
 
   const growSnake = () => {
@@ -115,15 +164,38 @@ const GameManager = () => {
     });
   };
 
+  const progressiveDifficultly = () => {
+    if (
+      score % 3 === 0 &&
+      score !== 0 &&
+      score !== lastScoreUpdated &&
+      snakeSpeed >= 30
+    ) {
+      setSnakeSpeed((snakeSpeed) => snakeSpeed - 5);
+      setLastScoreUpdated(score);
+    }
+  };
+
   useEffect(() => {
     const interval = setInterval(() => {
       handleSnake();
-    }, 100);
+      progressiveDifficultly();
+      gameOver();
+    }, snakeSpeed);
 
     return () => {
       clearInterval(interval);
     };
-  }, [direction, orbs]);
+  }, [direction, orbs, snake, score]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      checkCounter();
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [counter]);
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
@@ -134,10 +206,13 @@ const GameManager = () => {
   }, [handleKeyDown]);
 
   return (
-    <Stage {...stageProps}>
-      <Orbs orbs={orbs} spawnOrbs={spawnOrbs} />
-      <Graphics draw={drawSnake} />
-    </Stage>
+    <div className="stage">
+      <Stage {...stageProps}>
+        <Orbs orbs={orbs} spawnOrbs={spawnOrbs} />
+        <Graphics draw={drawSnake} />
+      </Stage>
+      <p className="scoreText">SCORE: {score}</p>
+    </div>
   );
 };
 

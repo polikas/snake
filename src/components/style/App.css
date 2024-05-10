@@ -1,0 +1,27 @@
+.header {
+  text-align: center;
+  font-family: "Source Sans Pro", Helvetica, sans-serif;
+  font-size: 50px;
+  font-weight: 400;
+  color: burlywood;
+  text-shadow: 6px 6px 4px #ccced2; 
+  letter-spacing: 20px;
+  word-wrap: break-word;
+}
+
+.stage {
+  text-align: center;
+}
+
+body {
+  background-color: brown;
+}
+
+.scoreText {
+  margin-right: 400px;
+  font-family: "Source Sans Pro", Helvetica, sans-serif;
+  font-size: 40px;
+  font-weight: 400;
+  color: burlywood;
+  word-wrap: break-word;
+}

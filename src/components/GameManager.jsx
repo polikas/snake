@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Stage, Graphics } from "@pixi/react";
 import Orbs from "./Orbs";
+import Typography from "@mui/material/Typography";
+import "../components/style/App.css";
 
 const GameManager = () => {
   const snakeLength = 5;
@@ -211,7 +213,7 @@ const GameManager = () => {
         <Orbs orbs={orbs} spawnOrbs={spawnOrbs} />
         <Graphics draw={drawSnake} />
       </Stage>
-      <p className="scoreText">SCORE: {score}</p>
+      <Typography className="scoreText">SCORE: {score}</Typography>
     </div>
   );
 };

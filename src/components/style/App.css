@@ -4,7 +4,7 @@
   font-size: 50px;
   font-weight: 400;
   color: burlywood;
-  text-shadow: 6px 6px 4px #ccced2; 
+  text-shadow: 6px 6px 4px #ccced2;
   letter-spacing: 20px;
   word-wrap: break-word;
 }
@@ -18,10 +18,31 @@ body {
 }
 
 .scoreText {
-  margin-right: 400px;
   font-family: "Source Sans Pro", Helvetica, sans-serif;
-  font-size: 40px;
-  font-weight: 400;
   color: burlywood;
   word-wrap: break-word;
+}
+
+.content-container {
+  min-height: calc(100vh - 84px);
+}
+
+.footer--pin {
+  position: relative;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 0;
+  width: 100%;
+  flex-shrink: 0;
+  flex-grow: 1;
+}
+
+.footer--pin a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  margin-left: 5px;
 }

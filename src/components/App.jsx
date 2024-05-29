@@ -1,11 +1,15 @@
 import GameManager from "./GameManager";
 import "../components/style/App.css";
+import Footer from "./Footer";
 
 function App() {
   return (
     <>
-      <h1 className="header">Classic Snake Game</h1>
-      <GameManager />
+      <div className="content-container">
+        <h1 className="header">Classic Snake Game</h1>
+        <GameManager />
+      </div>
+      <Footer />
     </>
   );
 }
